@@ -11,12 +11,13 @@
     ],
     "require": {
         "lisao/curl": "1.0",
+        "endroid/qrcode":"^2.5",
         "php": ">=5.6"
     },
 
     "autoload": {
         "psr-4": {
-            "lisao\\curl\\": ["src"]
+            "lisao\\payment\\": ["src"]
         }
     }
 }
