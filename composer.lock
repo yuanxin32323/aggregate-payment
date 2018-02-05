@@ -1,0 +1,62 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6e02c32342933976fb28018c42134c36",
+    "packages": [
+        {
+            "name": "lisao/curl",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yuanxin32323/lisao-curl.git",
+                "reference": "2ab0a6d820ca79db1be95fc33a6cb13c3dbb2493"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/yuanxin32323/lisao-curl/2ab0a6d820ca79db1be95fc33a6cb13c3dbb2493.zip",
+                "reference": "2ab0a6d820ca79db1be95fc33a6cb13c3dbb2493",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lisao\\curl\\": [
+                        "src"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lisao",
+                    "email": "200831913@qq.com"
+                }
+            ],
+            "description": "curl",
+            "keywords": [
+                "curl",
+                "file"
+            ],
+            "time": "2018-01-04T05:04:24+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.6"
+    },
+    "platform-dev": []
+}
