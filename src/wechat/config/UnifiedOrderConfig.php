@@ -6,7 +6,7 @@
 
 namespace LisaoPayment\WxConfig;
 
-class UnifiedOrderConfig {
+class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\UnifiedOrderConfig {
 
     private $product_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder'; //生产环境请求接口
     private $sandbox_url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder'; //沙箱环境请求接口
