@@ -22,22 +22,21 @@ class WxPayOrder {
 
     public function create_order(\LisaoPayment\WxConfig\UnifiedOrderConfig $param) {
         //获取请求地址
-        if ($this->config->get('sandbox')) {
-            $url = $param->get('sandbox_url');
-        } else {
-            $url = $param->get('product_url');
-        }
+        $url = $param->get_url($this->config->get('sandbox'));
+        $data = $param->get_all();
+        $data['appid'] = $this->config->get('appid');
+        $data['mch_id'] = $this->config->get('mch_id');
+        $data['sign_type'] = $this->config->get('sign_type');
     }
 
     /**
-     * 签名计算
+     * 签名
+     * @param type $data
      * @param \LisaoPayment\WxPay\WxPayConfig $config
+     * @return string 
      */
-    private function sign(\LisaoPayment\WxConfig\UnifiedOrderConfig $param, WxPayConfig $config) {
-        $data = $param->get_all();
-        $data['appid'] = $config->get('appid');
-        $data['mch_id'] = $config->get('mch_id');
-        $data['sign_type'] = $config->get('sign_type');
+    private function sign($data) {
+
         ksort($data);
         $str_sign = '';
         foreach ($data as $k => $v) {
@@ -45,10 +44,10 @@ class WxPayOrder {
                 $str_sign .= $k . '=' . $v . '&';
             }
         }
-        if ($config->get('sign_type') === "MD5") {
-            $sign = strtoupper(md5($str_sign . 'key=' . $config->get('api_key')));
+        if ($this->config->get('sign_type') === "MD5") {
+            $sign = strtoupper(md5($str_sign . 'key=' . $this->config->get('api_key')));
         } else {
-            $sign = strtoupper(hash_hmac('sha256', $str_sign . 'key=' . $config->get('api_key'), $config->get('api_key'), FALSE));
+            $sign = strtoupper(hash_hmac('sha256', $str_sign . 'key=' . $this->config->get('api_key'), $this->config->get('api_key'), FALSE));
         }
         return $sign;
     }
