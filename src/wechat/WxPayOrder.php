@@ -27,6 +27,12 @@ class WxPayOrder {
         $data['appid'] = $this->config->get('appid');
         $data['mch_id'] = $this->config->get('mch_id');
         $data['sign_type'] = $this->config->get('sign_type');
+        //签名
+        $data['sign'] = $this->sign($data);
+        $curl = new \lisao\curl\curl();
+        $curl->setUrl($url);
+        $result = $curl->post($this->to_xml($data));
+        return $result;
     }
 
     /**
@@ -50,6 +56,28 @@ class WxPayOrder {
             $sign = strtoupper(hash_hmac('sha256', $str_sign . 'key=' . $this->config->get('api_key'), $this->config->get('api_key'), FALSE));
         }
         return $sign;
+    }
+
+    /**
+     * 数组转xml
+     * @param type $data
+     * @return string
+     * @throws WxPayException
+     */
+    private function to_xml($data) {
+        if (!is_array($data) || count($data) <= 0) {
+            throw new WxPayException("数组数据异常！");
+        }
+        $xml = "<xml>";
+        foreach ($data as $key => $val) {
+            if (is_numeric($val)) {
+                $xml .= "<" . $key . ">" . $val . "</" . $key . ">";
+            } else {
+                $xml .= "<" . $key . "><![CDATA[" . $val . "]]></" . $key . ">";
+            }
+        }
+        $xml .= "</xml>";
+        return $xml;
     }
 
 }
