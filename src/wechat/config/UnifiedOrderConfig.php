@@ -39,6 +39,18 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /*
+     * 获取网关地址
+     */
+
+    public function get_url($sandbox = false) {
+        if ($sandbox) {
+            return $this->sandbox_url;
+        } else {
+            return $this->product_url;
+        }
+    }
+
+    /*
      * 获取所有参数
      */
 
