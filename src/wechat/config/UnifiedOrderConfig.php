@@ -31,11 +31,30 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /*
+     * 设置所有参数
+     */
+
+    public function set_all(array $param) {
+        foreach ($param as $k => $v) {
+            $this->param[$k] = $v;
+        }
+        return TRUE;
+    }
+
+    /*
      * 获取参数
      */
 
     public function get($option) {
         return $this->param[$option];
+    }
+
+    /*
+     * 获取所有参数
+     */
+
+    public function get_all() {
+        return $this->param;
     }
 
     /*
@@ -48,14 +67,6 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
         } else {
             return $this->product_url;
         }
-    }
-
-    /*
-     * 获取所有参数
-     */
-
-    public function get_all() {
-        return $this->param;
     }
 
 }
