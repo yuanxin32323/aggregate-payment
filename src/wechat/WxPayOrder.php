@@ -20,7 +20,9 @@ class WxPayOrder {
 
     public function __construct(WxPayConfig $config) {
         $this->config = $config;
-        $this->sandbox_signkey = $this->get_sandbox_signkey();
+        if ($config->get('sandbox')) {
+            $this->sandbox_signkey = $this->get_sandbox_signkey();
+        }
     }
 
     public function create_order(\LisaoPayment\WxConfig\UnifiedOrderConfig $param) {
