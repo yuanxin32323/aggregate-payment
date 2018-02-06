@@ -13,7 +13,7 @@ class WxPayConfig {
     private $app_id; //微信公众号开发者app_id。
     private $mch_id; //商户号
     private $api_key; //商户秘钥
-    private $sign_type = "MD5"; //签名方式
+    private $sign_type = "MD5"; //签名方式 MD5 HMAC-SHA256
     private $sandbox = false; //是否沙盒模式
 
     /*
