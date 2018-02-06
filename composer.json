@@ -11,13 +11,14 @@
     ],
     "require": {
         "lisao/curl": "1.0",
-        "endroid/qrcode":"^2.5",
+        "endroid/qrcode": "^2.5",
         "php": ">=5.6"
     },
 
     "autoload": {
         "psr-4": {
-            "lisao\\payment\\": ["src"]
+            "LisaoPayment\\WxPay\\": ["src/wechat"],
+            "LisaoPayment\\AliPay\\": ["src/alipay"]
         }
     }
 }
