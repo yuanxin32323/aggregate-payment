@@ -19,7 +19,8 @@
         "psr-4": {
             "LisaoPayment\\WxPay\\": ["src/wechat"],
             "LisaoPayment\\AliPay\\": ["src/alipay"],
-            "LisaoPayment\\WxConfig\\": ["src/wechat/config"]
+            "LisaoPayment\\WxConfig\\": ["src/wechat/config"],
+            "LisaoPayment\\ConfigBase\\": ["src/base/config"]
         }
     }
 }
