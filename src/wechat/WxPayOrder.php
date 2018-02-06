@@ -20,15 +20,37 @@ class WxPayOrder {
         $this->config = $config;
     }
 
-    /*
-     * 创建订单
-     */
+    public function create_order(\LisaoPayment\WxConfig\UnifiedOrderConfig $param) {
+        //获取请求地址
+        if ($this->config->get('sandbox')) {
+            $url = $param->get('sandbox_url');
+        } else {
+            $url = $param->get('product_url');
+        }
+    }
 
-    public function create_order() {
-        $param = [
-            'appid' => $this->config->get('app_id'),
-            'mch_id' => $this->config->get('mch_id'),
-        ];
+    /**
+     * 签名计算
+     * @param \LisaoPayment\WxPay\WxPayConfig $config
+     */
+    private function sign(\LisaoPayment\WxConfig\UnifiedOrderConfig $param, WxPayConfig $config) {
+        $data = $param->get_all();
+        $data['appid'] = $config->get('appid');
+        $data['mch_id'] = $config->get('mch_id');
+        $data['sign_type'] = $config->get('sign_type');
+        ksort($data);
+        $str_sign = '';
+        foreach ($data as $k => $v) {
+            if ($v) {
+                $str_sign .= $k . '=' . $v . '&';
+            }
+        }
+        if ($config->get('sign_type') === "MD5") {
+            $sign = strtoupper(md5($str_sign . 'key=' . $config->get('api_key')));
+        } else {
+            $sign = strtoupper(hash_hmac('sha256', $str_sign . 'key=' . $config->get('api_key'), $config->get('api_key'), FALSE));
+        }
+        return $sign;
     }
 
 }
