@@ -21,19 +21,23 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
         }
     }
 
-    /*
-     * 设置参数
+    /**
+     * 设置参数 - 一般用于设置一些非必需参数
+     * @param type $option
+     * @param type $value
+     * @return boolean
      */
-
     public function set($option, $value) {
         $this->param[$option] = $value;
         return TRUE;
     }
 
-    /*
-     * 设置所有参数
+    /**
+     * 设置所有参数 - 一般用于设置一些非必需参数
+     * @param type $option
+     * @param type $value
+     * @return boolean
      */
-
     public function set_all(array $param) {
         foreach ($param as $k => $v) {
             $this->param[$k] = $v;
@@ -70,32 +74,43 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /*
-     * 获取用户端ip
+     * 设置订单号
      */
 
-    public function get_client_ip() {
-        foreach (array(
-    'HTTP_CLIENT_IP',
-    'HTTP_X_FORWARDED_FOR',
-    'HTTP_X_FORWARDED',
-    'HTTP_X_CLUSTER_CLIENT_IP',
-    'HTTP_FORWARDED_FOR',
-    'HTTP_FORWARDED',
-    'REMOTE_ADDR') as $key) {
-            if (array_key_exists($key, $_SERVER)) {
-                foreach (explode(',', $_SERVER[$key]) as $ip) {
-                    $ip = trim($ip);
-                    //会过滤掉保留地址和私有地址段的IP，例如 127.0.0.1会被过滤
-                    //也可以修改成正则验证IP
-                    if ((bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 |
-                                    FILTER_FLAG_NO_PRIV_RANGE |
-                                    FILTER_FLAG_NO_RES_RANGE)) {
-                        return $ip;
-                    }
-                }
-            }
-        }
-        return null;
+    public function set_out_trade_no(string $value) {
+        $this->param['out_trade_no'] = $value;
+    }
+
+    /*
+     * 设置随机串
+     */
+
+    public function set_nonce_str(string $value) {
+        $this->param['nonce_str'] = $value;
+    }
+
+    /*
+     * 设置订单总金额
+     * 单位：分
+     */
+
+    public function set_total_fee(int $value) {
+        $this->param['total_fee'] = $value;
+    }
+
+    /*
+     * 设置回调地址
+     */
+
+    public function set_notify_url(string $value) {
+        $this->param['notify_url'] = $value;
+    }
+
+    /**
+     * 设置支付类型
+     */
+    public function set_trade_type(string $value) {
+        $this->param['trade_type'] = $value;
     }
 
 }
