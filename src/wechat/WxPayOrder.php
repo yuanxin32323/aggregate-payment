@@ -13,10 +13,8 @@ class WxPayOrder {
     private $config;
 
     /**
-     * 
+     * 初始化
      * @param \LisaoPayment\WxPay\WxPayConfig $config 配置参数
-     * @param string $sub_mch_id 子商户号（服务商模式下必填）
-     * @param string $sub_app_id 子商户公众号ID  (服务商模式下可选)
      */
     public function __construct(WxPayConfig $config) {
         $this->config = $config;
