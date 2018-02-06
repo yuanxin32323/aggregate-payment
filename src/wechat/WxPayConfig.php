@@ -25,7 +25,7 @@ class WxPayConfig {
         $this->mch_id = $mch_id;
         $this->api_key = $api_key;
         $this->sandbox = $sandbox;
-        $this->sign_type = $sign_type;
+        $this->sign_type = $sign_type ?: 'MD5';
     }
 
     /*
