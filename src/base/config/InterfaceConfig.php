@@ -11,4 +11,6 @@ interface InterfaceConfig {
     public function get_url($sandbox);
 
     public function get_all();
+
+    public function set_all($param);
 }
