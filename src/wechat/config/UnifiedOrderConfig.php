@@ -38,5 +38,12 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
         return $this->param[$option];
     }
 
+    /*
+     * 获取所有参数
+     */
+
+    public function get_all() {
+        return $this->param;
+    }
 
 }
