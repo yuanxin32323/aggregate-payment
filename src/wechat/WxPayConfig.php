@@ -10,7 +10,7 @@ namespace LisaoPayment\WxPay;
 
 class WxPayConfig {
 
-    private $app_id; //微信公众号开发者app_id。
+    private $appid; //微信公众号开发者app_id。
     private $mch_id; //商户号
     private $api_key; //商户秘钥
     private $sign_type = "MD5"; //签名方式 MD5 HMAC-SHA256
@@ -21,7 +21,7 @@ class WxPayConfig {
      */
 
     public function __construct($app_id, $mch_id, $api_key, $sign_type = "MD5", $sandbox = false) {
-        $this->app_id = $app_id;
+        $this->appid = $app_id;
         $this->mch_id = $mch_id;
         $this->api_key = $api_key;
         $this->sandbox = $sandbox;
@@ -51,7 +51,7 @@ class WxPayConfig {
     }
 
     public function set_app_id(string $value) {
-        $this->app_id = $value;
+        $this->appid = $value;
         return TRUE;
     }
 
