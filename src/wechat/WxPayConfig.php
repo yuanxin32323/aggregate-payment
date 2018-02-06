@@ -13,17 +13,19 @@ class WxPayConfig {
     private $app_id; //微信公众号开发者app_id。
     private $mch_id; //商户号
     private $api_key; //商户秘钥
+    private $sign_type = "MD5"; //签名方式
     private $sandbox = false; //是否沙盒模式
 
     /*
      * 初始化配置
      */
 
-    public function __construct($app_id = '', $mch_id = '', $api_key = '', $sandbox = false) {
+    public function __construct($app_id, $mch_id, $api_key, $sign_type = "MD5", $sandbox = false) {
         $this->app_id = $app_id;
         $this->mch_id = $mch_id;
         $this->api_key = $api_key;
         $this->sandbox = $sandbox;
+        $this->sign_type = $sign_type;
     }
 
     /*
@@ -65,6 +67,11 @@ class WxPayConfig {
 
     public function set_sand_box(bool $value) {
         $this->sandbox = $value;
+        return TRUE;
+    }
+
+    public function set_sign_type(string $value) {
+        $this->sign_type = $value;
         return TRUE;
     }
 
