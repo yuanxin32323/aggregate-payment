@@ -40,20 +40,32 @@ class WxPayConfig {
         }
     }
 
-    public function get_app_id() {
-        return $this->app_id;
+    /*
+     * 获取配置
+     */
+
+    public function get($option) {
+        return $this->$option;
     }
 
-    public function get_mch_id() {
-        return $this->mch_id;
+    public function set_app_id(string $value) {
+        $this->app_id = $value;
+        return TRUE;
     }
 
-    public function get_api_key() {
-        return $this->api_key;
+    public function set_mch_id(string $value) {
+        $this->mch_id = $value;
+        return TRUE;
     }
 
-    public function get_sand_box() {
-        return $this->sandbox;
+    public function set_api_key(string $value) {
+        $this->api_key = $value;
+        return TRUE;
+    }
+
+    public function set_sand_box(bool $value) {
+        $this->sandbox = $value;
+        return TRUE;
     }
 
 }
