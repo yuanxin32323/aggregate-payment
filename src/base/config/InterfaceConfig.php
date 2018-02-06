@@ -12,5 +12,5 @@ interface InterfaceConfig {
 
     public function get_all();
 
-    public function set_all($param);
+    public function set_all(array $param);
 }
