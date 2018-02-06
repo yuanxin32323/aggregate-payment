@@ -5,7 +5,7 @@
 
 namespace LisaoPayment\WxPay;
 
-class WxPayException extends Exception {
+class WxPayException extends \Exception {
 
     public function errorMessage() {
         return $this->getMessage();
