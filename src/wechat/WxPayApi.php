@@ -22,19 +22,19 @@ class WxPayApi {
         $this->config = $config;
         //判断appid是否存在
         if (empty($config->get('appid'))) {
-            throw new WxPayException("缺少appid参数");
+            throw new WxPayException('PARAM_ERROR', "缺少appid参数");
         }
         //判断mch_id是否存在
         if (empty($config->get('mch_id'))) {
-            throw new WxPayException("缺少mch_id参数");
+            throw new WxPayException('PARAM_ERROR', "缺少mch_id参数");
         }
         //判断api_key是否存在
         if (empty($config->get('api_key'))) {
-            throw new WxPayException("缺少api_key参数");
+            throw new WxPayException('PARAM_ERROR', "缺少api_key参数");
         }
         //判断签名方式是否正确
         if ($config->get('sign_type') !== 'MD5' && $config->get('sign_type') !== 'HMAC-SHA256') {
-            throw new WxPayException("签名方式错误");
+            throw new WxPayException('PARAM_ERROR', "签名方式错误");
         }
         //判断是否为沙箱环境
         if ($config->get('sandbox')) {
