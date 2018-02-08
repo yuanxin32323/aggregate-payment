@@ -182,6 +182,9 @@ class WxPayOrder {
         if (empty($data['out_trade_no']) && empty($data['transaction_id'])) {
             throw new WxPayException('缺少out_trade_no参数和transaction_id参数，二者必填其一');
         }
+        if (empty($data['out_refund_no'])) {
+            throw new WxPayException('缺少out_refund_no参数');
+        }
         if (empty($data['nonce_str'])) {
             throw new WxPayException('缺少nonce_str参数');
         }
@@ -191,11 +194,11 @@ class WxPayOrder {
         if (empty($data['refund_fee'])) {
             throw new WxPayException('缺少refund_fee参数');
         }
-        if (empty($param->cert)) {
+        if (empty($param->cert) || !file_exists($param->cert)) {
 
             throw new WxPayException('缺少商户证书apiclient_cert');
         }
-        if (empty($param->key)) {
+        if (empty($param->key) || !file_exists($param->key)) {
 
             throw new WxPayException('缺少商户证书秘钥apiclient_key');
         }
@@ -205,9 +208,7 @@ class WxPayOrder {
         $curl->setUrl($url);
         $curl->set(CURLOPT_SSLCERT, $param->cert);
         $curl->set(CURLOPT_SSLKEY, $param->key);
-
         $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
-
         if ($result['return_code'] === 'SUCCESS') {
 
             if ($result['result_code'] === 'SUCCESS') {
