@@ -4,11 +4,11 @@ namespace LisaoPayment\ConfigBase;
 
 interface InterfaceConfig {
 
-    public function set($option, $value);
+    public function set(string $option, $value);
 
-    public function get($option);
+    public function get(string $option);
 
-    public function get_url($sandbox);
+    public function get_url(bool $sandbox);
 
     public function get_all();
 
