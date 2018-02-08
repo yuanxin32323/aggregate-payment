@@ -75,7 +75,7 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /**
-     * 设置订单号
+     * 设置商户订单号
      * @param string $value 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一
      */
     public function set_out_trade_no(string $value) {
