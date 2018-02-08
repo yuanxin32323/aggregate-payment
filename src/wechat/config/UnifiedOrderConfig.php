@@ -91,6 +91,14 @@ class UnifiedOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /**
+     * 设置商品描述
+     * @param string $value 商品简单描述
+     */
+    public function set_body(string $value) {
+        $this->param['body'] = $value;
+    }
+
+    /**
      * 设置订单总金额
      * @param int $value 订单总金额，只能为整数，单位：分
      */
