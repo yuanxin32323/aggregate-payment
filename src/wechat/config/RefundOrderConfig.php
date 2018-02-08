@@ -8,8 +8,8 @@ namespace LisaoPayment\WxConfig;
 
 class RefundOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
 
-    private $product_url = 'https://api.mch.weixin.qq.com/pay/refund'; //生产环境请求接口
-    private $sandbox_url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/refund'; //沙箱环境请求接口
+    private $product_url = 'https://api.mch.weixin.qq.com/secapi/pay/refund'; //生产环境请求接口
+    private $sandbox_url = 'https://api.mch.weixin.qq.com/sandboxnew/secapi/pay/refund'; //沙箱环境请求接口
     private $param = []; //参数
     public $cert; //证书
     public $key; //秘钥
@@ -82,6 +82,14 @@ class RefundOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
      */
     public function set_out_trade_no(string $value) {
         $this->param['out_trade_no'] = $value;
+    }
+
+    /**
+     * 设置退款订单号
+     * @param string $value 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
+     */
+    public function set_out_refund_no(string $value) {
+        $this->param['out_refund_no'] = $value;
     }
 
     /**
