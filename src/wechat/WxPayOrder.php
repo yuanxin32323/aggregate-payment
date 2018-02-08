@@ -20,6 +20,23 @@ class WxPayOrder {
 
     public function __construct(WxPayConfig $config) {
         $this->config = $config;
+        //判断appid是否存在
+        if (empty($config->get('appid'))) {
+            throw new WxPayException("缺少appid参数");
+        }
+        //判断mch_id是否存在
+        if (empty($config->get('mch_id'))) {
+            throw new WxPayException("缺少mch_id参数");
+        }
+        //判断api_key是否存在
+        if (empty($config->get('api_key'))) {
+            throw new WxPayException("缺少api_key参数");
+        }
+        //判断签名方式是否正确
+        if ($config->get('sign_type') !== 'MD5' && $config->get('sign_type') !== 'HMAC-SHA256') {
+            throw new WxPayException("签名方式错误");
+        }
+        //判断是否为沙箱环境
         if ($config->get('sandbox')) {
             $this->sandbox_signkey = $this->get_sandbox_signkey();
         }
@@ -44,6 +61,78 @@ class WxPayOrder {
         $data['appid'] = $this->config->get('appid');
         $data['mch_id'] = $this->config->get('mch_id');
         $data['sign_type'] = $this->config->get('sign_type');
+        //参数正确性判断
+        if (empty($data['out_trade_no'])) {
+            throw new WxPayException('缺少out_trade_no参数');
+        }
+        if (empty($data['nonce_str'])) {
+            throw new WxPayException('缺少nonce_str参数');
+        }
+
+        if (empty($data['total_fee'])) {
+            throw new WxPayException('缺少total_fee参数');
+        }
+        if (empty($data['notify_url'])) {
+            throw new WxPayException('缺少notify_url参数');
+        }
+        if (empty($data['trade_type'])) {
+            throw new WxPayException('缺少trade_type参数');
+        }
+
+        //签名
+        $data['sign'] = $this->sign($data, $api_key);
+        $curl = new \LisaoPayment\curl\curl();
+        $curl->setUrl($url);
+        $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
+
+        if ($result['return_code'] === 'SUCCESS') {
+
+            if ($result['result_code'] === 'SUCCESS') {
+                //验证签名来源
+                $sign = $result['sign'];
+                unset($result['sign']);
+                if ($sign != $this->sign($result, $api_key)) {
+
+                    throw new WxPayException('消息来源验签失败');
+                }
+            } else {
+                throw new WxPayException($result['err_code_des']);
+            }
+        } else {
+
+            throw new WxPayException($result['return_msg']);
+        }
+        return $result;
+    }
+
+    /**
+     * 查询订单接口
+     * @param \LisaoPayment\WxConfig\QueryOrderConfig $param 查询订单接口参数
+     * @return type
+     * @throws WxPayException
+     */
+    public function query_order(\LisaoPayment\WxConfig\QueryOrderConfig $param) {
+        $sandbox = $this->config->get('sandbox');
+        if ($sandbox) {
+            $api_key = $this->sandbox_signkey;
+        } else {
+            $api_key = $this->config->get('api_key');
+        }
+        //获取请求地址
+        $url = $param->get_url($sandbox);
+        $data = $param->get_all();
+        $data['appid'] = $this->config->get('appid');
+        $data['mch_id'] = $this->config->get('mch_id');
+        $data['sign_type'] = $this->config->get('sign_type');
+        //参数正确性判断
+        if (empty($data['out_trade_no']) && empty($data['transaction_id'])) {
+            throw new WxPayException('缺少out_trade_no参数和transaction_id参数，二者必填其一');
+        }
+        if (empty($data['nonce_str'])) {
+            throw new WxPayException('缺少nonce_str参数');
+        }
+
+
         //签名
         $data['sign'] = $this->sign($data, $api_key);
         $curl = new \LisaoPayment\curl\curl();
