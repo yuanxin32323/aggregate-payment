@@ -12,8 +12,8 @@ class RevokeOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     private $product_url = 'https://api.mch.weixin.qq.com/secapi/pay/reverse'; //生产环境请求接口
     private $sandbox_url = 'https://api.mch.weixin.qq.com/sandboxnew/secapi/pay/reverse'; //沙箱环境请求接口
     private $param = []; //参数
-    private $cert;
-    private $key;
+    public $cert;
+    public $key;
 
     public function __construct($sub_mch_id = '', $sub_appid = '') {
         if ($sub_mch_id) {
