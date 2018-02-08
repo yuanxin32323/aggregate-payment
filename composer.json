@@ -19,6 +19,7 @@
             "LisaoPayment\\WxPay\\": ["src/wechat"],
             "LisaoPayment\\AliPay\\": ["src/alipay"],
             "LisaoPayment\\WxConfig\\": ["src/wechat/config"],
+            "LisaoPayment\\AliConfig\\": ["src/alipay/config"],
             "LisaoPayment\\ConfigBase\\": ["src/base/config"],
             "LisaoPayment\\curl\\": ["src/base"]
         }
