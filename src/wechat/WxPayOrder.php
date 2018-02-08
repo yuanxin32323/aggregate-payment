@@ -143,7 +143,7 @@ class WxPayOrder {
         if (empty($data['auth_code'])) {
             throw new WxPayException('PARAM_ERROR', '缺少auth_code参数');
         }
-        
+
         //签名
         $data['sign'] = $this->sign($data, $api_key);
         $curl = new \LisaoPayment\curl\curl();
@@ -202,6 +202,69 @@ class WxPayOrder {
         $data['sign'] = $this->sign($data, $api_key);
         $curl = new \LisaoPayment\curl\curl();
         $curl->setUrl($url);
+        $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
+
+        if ($result['return_code'] === 'SUCCESS') {
+            //验证签名来源
+            $sign = $result['sign'];
+            unset($result['sign']);
+            if ($sign != $this->sign($result, $api_key)) {
+
+                throw new WxPayException('SIGN_ERROR', '消息来源验签失败');
+            }
+            if ($result['result_code'] === 'SUCCESS') {
+                
+            } else {
+                throw new WxPayException($result['err_code'], $result['err_code_des']);
+            }
+        } else {
+
+            throw new WxPayException($result['return_code'], $result['return_msg']);
+        }
+        return $result;
+    }
+
+    /**
+     * 撤销订单接口
+     * 调用支付接口后请勿立即调用撤销订单API，建议支付后至少15s后再调用撤销订单接口。
+     * @param \LisaoPayment\WxConfig\RevokeOrderConfig $param 查询订单接口参数
+     * @return array 返回微信官方文档的返回值
+     * @throws WxPayException
+     */
+    public function revoke_order(\LisaoPayment\WxConfig\RevokeOrderConfig $param) {
+        $sandbox = $this->config->get('sandbox');
+        if ($sandbox) {
+            $api_key = $this->sandbox_signkey;
+        } else {
+            $api_key = $this->config->get('api_key');
+        }
+        //获取请求地址
+        $url = $param->get_url($sandbox);
+        $data = $param->get_all();
+        $data['appid'] = $this->config->get('appid');
+        $data['mch_id'] = $this->config->get('mch_id');
+        $data['sign_type'] = $this->config->get('sign_type');
+        //参数正确性判断
+        if (empty($data['out_trade_no']) && empty($data['transaction_id'])) {
+            throw new WxPayException('PARAM_ERROR', '缺少out_trade_no参数和transaction_id参数，二者必填其一');
+        }
+        if (empty($data['nonce_str'])) {
+            throw new WxPayException('PARAM_ERROR', '缺少nonce_str参数');
+        }
+        if (empty($param->cert) || !file_exists($param->cert)) {
+
+            throw new WxPayException('PARAM_ERROR', '缺少商户证书apiclient_cert');
+        }
+        if (empty($param->key) || !file_exists($param->key)) {
+
+            throw new WxPayException('PARAM_ERROR', '缺少商户证书秘钥apiclient_key');
+        }
+        //签名
+        $data['sign'] = $this->sign($data, $api_key);
+        $curl = new \LisaoPayment\curl\curl();
+        $curl->setUrl($url);
+        $curl->set(CURLOPT_SSLCERT, $param->cert);
+        $curl->set(CURLOPT_SSLKEY, $param->key);
         $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
 
         if ($result['return_code'] === 'SUCCESS') {
