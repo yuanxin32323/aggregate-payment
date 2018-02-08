@@ -199,8 +199,6 @@ class WxPayOrder {
 
             throw new WxPayException('缺少商户证书秘钥apiclient_key');
         }
-
-
         //签名
         $data['sign'] = $this->sign($data, $api_key);
         $curl = new \LisaoPayment\curl\curl();
