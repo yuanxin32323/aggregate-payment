@@ -72,6 +72,9 @@ class WxPayOrder {
         if (empty($data['total_fee'])) {
             throw new WxPayException('PARAM_ERROR', '缺少total_fee参数');
         }
+        if (empty($data['body'])) {
+            throw new WxPayException('PARAM_ERROR', '缺少body参数');
+        }
         if (empty($data['notify_url'])) {
             throw new WxPayException('PARAM_ERROR', '缺少notify_url参数');
         }
@@ -126,10 +129,10 @@ class WxPayOrder {
         $data['sign_type'] = $this->config->get('sign_type');
         //参数正确性判断
         if (empty($data['out_trade_no']) && empty($data['transaction_id'])) {
-            throw new WxPayException('PARAM_ERROR','缺少out_trade_no参数和transaction_id参数，二者必填其一');
+            throw new WxPayException('PARAM_ERROR', '缺少out_trade_no参数和transaction_id参数，二者必填其一');
         }
         if (empty($data['nonce_str'])) {
-            throw new WxPayException('PARAM_ERROR','缺少nonce_str参数');
+            throw new WxPayException('PARAM_ERROR', '缺少nonce_str参数');
         }
 
 
@@ -180,27 +183,27 @@ class WxPayOrder {
         $data['sign_type'] = $this->config->get('sign_type');
         //参数正确性判断
         if (empty($data['out_trade_no']) && empty($data['transaction_id'])) {
-            throw new WxPayException('PARAM_ERROR','缺少out_trade_no参数和transaction_id参数，二者必填其一');
+            throw new WxPayException('PARAM_ERROR', '缺少out_trade_no参数和transaction_id参数，二者必填其一');
         }
         if (empty($data['out_refund_no'])) {
-            throw new WxPayException('PARAM_ERROR','缺少out_refund_no参数');
+            throw new WxPayException('PARAM_ERROR', '缺少out_refund_no参数');
         }
         if (empty($data['nonce_str'])) {
-            throw new WxPayException('PARAM_ERROR','缺少nonce_str参数');
+            throw new WxPayException('PARAM_ERROR', '缺少nonce_str参数');
         }
         if (empty($data['total_fee'])) {
-            throw new WxPayException('PARAM_ERROR','缺少total_fee参数');
+            throw new WxPayException('PARAM_ERROR', '缺少total_fee参数');
         }
         if (empty($data['refund_fee'])) {
-            throw new WxPayException('PARAM_ERROR','缺少refund_fee参数');
+            throw new WxPayException('PARAM_ERROR', '缺少refund_fee参数');
         }
         if (empty($param->cert) || !file_exists($param->cert)) {
 
-            throw new WxPayException('PARAM_ERROR','缺少商户证书apiclient_cert');
+            throw new WxPayException('PARAM_ERROR', '缺少商户证书apiclient_cert');
         }
         if (empty($param->key) || !file_exists($param->key)) {
 
-            throw new WxPayException('PARAM_ERROR','缺少商户证书秘钥apiclient_key');
+            throw new WxPayException('PARAM_ERROR', '缺少商户证书秘钥apiclient_key');
         }
         //签名
         $data['sign'] = $this->sign($data, $api_key);
@@ -250,11 +253,11 @@ class WxPayOrder {
         $data['sign_type'] = $this->config->get('sign_type');
         //参数正确性判断
         if (empty($data['refund_id']) && empty($data['out_refund_no']) && empty($data['out_trade_no']) && empty($data['transaction_id'])) {
-            throw new WxPayException('PARAM_ERROR','缺少out_trade_no参数、transaction_id参数、out_refund_no参数、refund_id参数，四者必填其一');
+            throw new WxPayException('PARAM_ERROR', '缺少out_trade_no参数、transaction_id参数、out_refund_no参数、refund_id参数，四者必填其一');
         }
 
         if (empty($data['nonce_str'])) {
-            throw new WxPayException('PARAM_ERROR','缺少nonce_str参数');
+            throw new WxPayException('PARAM_ERROR', '缺少nonce_str参数');
         }
         //签名
         $data['sign'] = $this->sign($data, $api_key);
