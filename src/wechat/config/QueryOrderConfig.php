@@ -75,7 +75,7 @@ class QueryOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /**
-     * 设置订单号（与微信订单号二选一）
+     * 设置商户订单号（与微信订单号二选一）
      * @param string $value 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一
      */
     public function set_out_trade_no(string $value) {
@@ -83,7 +83,7 @@ class QueryOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /**
-     * 设置微信订单号（与商户订单号二选一）
+     * 设置微信支付订单号（与商户订单号二选一）
      * @param string $value 微信的订单号，优先使用 
      */
     public function set_transaction_id(string $value) {
