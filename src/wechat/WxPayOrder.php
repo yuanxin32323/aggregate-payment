@@ -86,15 +86,15 @@ class WxPayOrder {
         $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
 
         if ($result['return_code'] === 'SUCCESS') {
+            //验证签名来源
+            $sign = $result['sign'];
+            unset($result['sign']);
+            if ($sign != $this->sign($result, $api_key)) {
 
+                throw new WxPayException('消息来源验签失败');
+            }
             if ($result['result_code'] === 'SUCCESS') {
-                //验证签名来源
-                $sign = $result['sign'];
-                unset($result['sign']);
-                if ($sign != $this->sign($result, $api_key)) {
-
-                    throw new WxPayException('消息来源验签失败');
-                }
+                
             } else {
                 throw new WxPayException($result['err_code_des']);
             }
@@ -140,15 +140,15 @@ class WxPayOrder {
         $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
 
         if ($result['return_code'] === 'SUCCESS') {
+            //验证签名来源
+            $sign = $result['sign'];
+            unset($result['sign']);
+            if ($sign != $this->sign($result, $api_key)) {
 
+                throw new WxPayException('消息来源验签失败');
+            }
             if ($result['result_code'] === 'SUCCESS') {
-                //验证签名来源
-                $sign = $result['sign'];
-                unset($result['sign']);
-                if ($sign != $this->sign($result, $api_key)) {
-
-                    throw new WxPayException('消息来源验签失败');
-                }
+                
             } else {
                 throw new WxPayException($result['err_code_des']);
             }
@@ -210,15 +210,15 @@ class WxPayOrder {
         $curl->set(CURLOPT_SSLKEY, $param->key);
         $result = $this->xml_to_arr($curl->post($this->arr_to_xml($data)));
         if ($result['return_code'] === 'SUCCESS') {
+            //验证签名来源
+            $sign = $result['sign'];
+            unset($result['sign']);
+            if ($sign != $this->sign($result, $api_key)) {
 
+                throw new WxPayException('消息来源验签失败');
+            }
             if ($result['result_code'] === 'SUCCESS') {
-                //验证签名来源
-                $sign = $result['sign'];
-                unset($result['sign']);
-                if ($sign != $this->sign($result, $api_key)) {
-
-                    throw new WxPayException('消息来源验签失败');
-                }
+                
             } else {
                 throw new WxPayException($result['err_code_des']);
             }
