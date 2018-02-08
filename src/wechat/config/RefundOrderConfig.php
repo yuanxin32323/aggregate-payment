@@ -118,8 +118,8 @@ class RefundOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
 
     /**
      * 设置证书
-     * @param type $apiclient_cert 微信证书绝对路径
-     * @param type $apiclient_key 微信秘钥绝对路径
+     * @param type $apiclient_cert 商户证书绝对路径
+     * @param type $apiclient_key 商户证书秘钥绝对路径
      */
     public function set_cert($apiclient_cert, $apiclient_key) {
         $this->cert = $apiclient_cert;
