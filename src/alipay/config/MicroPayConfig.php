@@ -105,7 +105,7 @@ class MicroPayConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
      * @param int $value 订单总金额，只能为整数，单位：分
      */
     public function set_total_amount(int $value) {
-        $this->param['total_amount'] = $value;
+        $this->param['total_amount'] = $value / 100;
     }
 
 }
