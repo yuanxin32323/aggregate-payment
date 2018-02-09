@@ -8,15 +8,8 @@ namespace LisaoPayment\AliPayConfig;
 
 class MicroPayConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
 
-    private $method = 'alipay.trade.pay'; //请求类型
-    private $app_auth_token; //第三方应用授权
+    public $method = 'alipay.trade.pay'; //请求类型
     private $param = []; //参数
-
-    public function __construct($app_auth_token = '') {
-        if ($app_auth_token) {
-            $this->app_auth_token = $app_auth_token;
-        }
-    }
 
     /**
      * 设置参数 - 一般用于设置一些非必需参数
@@ -24,6 +17,7 @@ class MicroPayConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
      * @param type $value 值
      * @return boolean
      */
+
     public function set(string $option, $value) {
         $this->param[$option] = $value;
         return TRUE;
@@ -59,16 +53,11 @@ class MicroPayConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
     }
 
     /**
-     * 获取网关地址
-     * @param bool $sandbox 是否为沙箱环境
+     * 获取接口类型
      * @return type
      */
-    public function get_url(bool $sandbox = false) {
-        if ($sandbox) {
-            return $this->sandbox_url;
-        } else {
-            return $this->product_url;
-        }
+    public function get_method() {
+        return $this->method;
     }
 
     /**
