@@ -25,7 +25,7 @@ class AliPayConfig {
      * @param type $sandbox
      */
 
-    public function __construct($app_id, $public_key, $private_key, $sign_type = "MD5", $sandbox = false) {
+    public function __construct($app_id, $public_key, $private_key, $sign_type = "RSA2", $sandbox = false) {
         $this->app_id = $app_id;
         $this->private_key = $private_key;
         $this->public_key = $public_key;
