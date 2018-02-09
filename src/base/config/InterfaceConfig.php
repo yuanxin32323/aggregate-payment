@@ -8,7 +8,6 @@ interface InterfaceConfig {
 
     public function get(string $option);
 
-    public function get_url(bool $sandbox);
 
     public function get_all();
 
