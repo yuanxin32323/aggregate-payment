@@ -382,8 +382,6 @@ class AliPayApi {
         $res = openssl_get_privatekey($private_key);
         if (!$res) {
             throw new AliPayException('PRIVATE_KEY_ERROR', '商户私钥格式错误');
-        } else {
-            openssl_free_key($res);
         }
         ksort($data);
         $str_sign = '';
@@ -405,6 +403,7 @@ class AliPayApi {
         } else {
             openssl_sign($str_sign, $sign, $private_key);
         }
+        openssl_free_key($res);
         $sign = base64_encode($sign);
         return $sign;
     }
@@ -416,7 +415,7 @@ class AliPayApi {
      * @param bool $is_asyn 是否为异步回调数据
      * @return bool 是否验签通过
      */
-    public function check_sign(array $data, string $sign, bool $is_asyn = false) {
+    public function check_sign($data, $sign, bool $is_asyn = false) {
         $public_key = "-----BEGIN PUBLIC KEY-----\n" .
                 wordwrap($this->config->get('public_key'), 64, "\n", true) .
                 "\n-----END PUBLIC KEY-----";
