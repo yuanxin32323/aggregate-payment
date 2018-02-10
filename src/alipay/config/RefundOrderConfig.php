@@ -78,7 +78,7 @@ class RefundOrderConfig implements \LisaoPayment\ConfigBase\InterfaceConfig {
 
     /**
      * 需要退款的金额
-     * @param string $value 	该金额不能大于订单金额,单位为分
+     * @param int $value 该金额不能大于订单金额,单位为分
      */
     public function set_refund_amount(int $value) {
         $this->param['refund_amount'] = $value / 100;
