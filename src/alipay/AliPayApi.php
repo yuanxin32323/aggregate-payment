@@ -47,8 +47,73 @@ class AliPayApi {
     }
 
     /**
+     * 统一订单预创建接口 返回移动支付链接
+     * @param \LisaoPayment\AliPayConfig\PreCreateOrderConfig $param 统一收单线下交易预创建参数配置
+     * @return array 返回支付宝官方文档返回值
+     * @throws WxPayException
+     */
+    public function pre_create_order(\LisaoPayment\AliPayConfig\PreCreateOrderConfig $param) {
+
+        //获取请求地址
+        $url = $this->url;
+        $biz_content = $param->get_all();
+
+        $data['app_id'] = $this->config->get('app_id');
+        $data['method'] = $param->get_method();
+        $data['charset'] = 'utf-8';
+        $data['sign_type'] = $this->config->get('sign_type');
+        $data['timestamp'] = date('Y-m-d H:i:s');
+        $data['version'] = '1.0';
+        if ($this->config->get('notify_url')) {
+            $data['notify'] = $this->config->get('notify_url');
+        }
+        if ($this->config->get('app_auth_token')) {
+            $data['app_auth_token'] = $this->config->get('app_auth_token');
+        }
+        //参数正确性判断
+        if (empty($biz_content['out_trade_no'])) {
+            throw new AliPayException('PARAM_ERROR', '缺少out_trade_no参数');
+        }
+        if (empty($biz_content['subject'])) {
+            throw new AliPayException('PARAM_ERROR', '缺少subject参数');
+        }
+        if (empty($biz_content['total_amount'])) {
+            throw new AliPayException('PARAM_ERROR', '缺少total_amount参数');
+        }
+        $data['biz_content'] = json_encode($biz_content);
+
+        //签名
+        $data['sign'] = $this->sign($data);
+        //构建get请求参数
+        $get_param = '';
+        foreach ($data as $k => $v) {
+            $get_param .= "{$k}=" . urlencode($v) . '&';
+        }
+        $url .= '?' . $get_param;
+
+        $curl = new \LisaoPayment\curl\curl();
+        $curl->setUrl($url);
+        $result = json_decode($curl->get(), TRUE);
+        $response = $result[str_replace('.', '_', $param->method) . '_response'];
+        if ($response) {
+            $sign = $result['sign'];
+            if ($this->check_sign($response, $sign)) {
+                if ($response['code'] != 10000) {
+                    throw new AliPayException($response['code'], isset($response['sub_msg']) ? $response['sub_msg'] : $response['msg']);
+                }
+            } else {
+                throw new AliPayException('SIGN_ERROR', '消息来源验签失败');
+            }
+        } else {
+            throw new AliPayException('SYSTEM_ERROR', '请求失败，网络错误');
+        }
+
+        return $response;
+    }
+
+    /**
      * 统一订单创建接口
-     * @param \LisaoPayment\WxConfig\CreateOrderConfig $param 统一交易订单创建接口参数配置
+     * @param \LisaoPayment\AliPayConfig\CreateOrderConfig $param 统一收单交易订单创建接口参数配置
      * @return array 返回支付宝官方文档返回值
      * @throws WxPayException
      */
@@ -117,7 +182,7 @@ class AliPayApi {
 
     /**
      * 统一交易支付接口（扫码枪支付）
-     * @param \LisaoPayment\WxConfig\UnifiedOrderConfig $param 统一收单交易支付接口参数
+     * @param \LisaoPayment\AliPayConfig\UnifiedOrderConfig $param 统一收单交易支付接口参数配置
      * @return array 返回支付宝官方文档返回值
      * @throws WxPayException
      */
