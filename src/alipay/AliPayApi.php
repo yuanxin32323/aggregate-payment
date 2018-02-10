@@ -399,9 +399,9 @@ class AliPayApi {
         }
 
         if (strtoupper($this->config->get('sign_type')) === "RSA2") {
-            openssl_sign($str_sign, $sign, $private_key, OPENSSL_ALGO_SHA256);
+            openssl_sign($str_sign, $sign, $res, OPENSSL_ALGO_SHA256);
         } else {
-            openssl_sign($str_sign, $sign, $private_key);
+            openssl_sign($str_sign, $sign, $res);
         }
         openssl_free_key($res);
         $sign = base64_encode($sign);
