@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 刷卡支付接口参数（扫码枪支付）
+ * 统一收单交易支付接口（扫码枪支付）
  */
 
 namespace LisaoPayment\AliPayConfig;

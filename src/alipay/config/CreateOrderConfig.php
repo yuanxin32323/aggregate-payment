@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 统一交易订单创建接口参数配置
+ * 统一收单交易创建接口
  */
 
 namespace LisaoPayment\AliPayConfig;
