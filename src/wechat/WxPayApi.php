@@ -44,11 +44,11 @@ class WxPayApi {
 
     /**
      * 统一下单接口
-     * @param \LisaoPayment\WxConfig\UnifiedOrderConfig $param 统一下单接口参数
+     * @param \LisaoPayment\WxConfig\CreateOrderConfig $param 统一下单接口参数
      * @return array 返回微信官方文档的返回值
      * @throws WxPayException
      */
-    public function create_order(\LisaoPayment\WxConfig\UnifiedOrderConfig $param) {
+    public function create_order(\LisaoPayment\WxConfig\CreateOrderConfig $param) {
         $sandbox = $this->config->get('sandbox');
         if ($sandbox) {
             $api_key = $this->sandbox_signkey;
