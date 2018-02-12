@@ -1,0 +1,21 @@
+{
+    "name": "lisao/curl",
+    "description": "curl",
+    "keywords": ["curl", "file"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lisao",
+            "email": "200831913@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "lisao\\curl\\": ["src"]
+        }
+    }
+}
