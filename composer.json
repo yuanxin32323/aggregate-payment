@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "endroid/qrcode": "^2.5",
+        "endroid/qrcode": "*",
         "php": ">=5.6"
     },
 
