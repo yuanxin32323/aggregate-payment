@@ -415,7 +415,7 @@ class WxPayApi {
      * @param type $api_key
      * @return type
      */
-    private function sign($data, $api_key) {
+    public function sign($data, $api_key) {
         ksort($data);
         $str_sign = '';
         foreach ($data as $k => $v) {
