@@ -415,11 +415,15 @@ class WxPayApi {
      * @param type $api_key
      * @return type
      */
-    public function sign($data, $api_key) {
+    public function sign($arr, $api_key) {
+        $data = [];
+        foreach ($arr as $k => $v) {
+            $data[$k] = $v;
+        }
         ksort($data);
         $str_sign = '';
         foreach ($data as $k => $v) {
-            if ($v) {
+            if ($k != 'sign' && $v) {
                 $str_sign .= $k . '=' . $v . '&';
             }
         }
